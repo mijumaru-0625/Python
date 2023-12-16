@@ -70,15 +70,32 @@ def andSearch(inverseIndex: dict[str, set[int]], query: list[str]) -> set[int]:
     query 内の単語の全てが含まれている文書の文書番号の集合を返す関数
     p.44 課題 0.6.8 """
     ret: set[int] = set()
+    for v in inverseIndex.values(): # 行数の全体の集合を作る
+        ret = ret | v
+
     for token in query:
         if token in inverseIndex:
             ret = ret & inverseIndex[token]
+        else:
+            ret = ret & set()
 
     return ret
 
 
-if __name__ == "__main__":
+def mini_search_engine():
+    """ ミニ検索エンジン p.43 0.6.7"""
     with open("stories_small.txt") as f:
         lines_list = f.readlines()
 
-    print(orSearch(makeInverseIndex(lines_list), ["Shanghai", "Xian"]))        
+    print(orSearch(makeInverseIndex(lines_list), ["for", "example"]))        
+    print(andSearch(makeInverseIndex(lines_list), ["for", "example"]))        
+
+    with open("stories_big.txt") as f:
+        lines_list = f.readlines()
+
+    print(orSearch(makeInverseIndex(lines_list), ["for", "example"]))        
+    print(andSearch(makeInverseIndex(lines_list), ["for", "example"]))        
+
+
+if __name__ == "__main__":
+    mini_search_engine()
