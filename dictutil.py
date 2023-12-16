@@ -38,12 +38,47 @@ def listrange2dict(L: list) -> dict:
     p.41 課題 0.6.4 """
     return {k: v for k, v in enumerate(L)}
 
+
+def makeInverseIndex(strlist: list[str]) -> dict[str, set[int]]:
+    """ 文字列（文書）（←文字列のリストのこと）が与えられると、
+    単語がその単語が現れる文書番号（←文字列のリストのインデックスのこと）から成る集合に
+    写像する辞書（逆インデックス）を返す関数
+    p.44 課題 0.6.6 """
+    ret: dict[str, set[int]]= {}
+    for index, line in enumerate(strlist):
+        for token in  line.split():
+            ret.setdefault(token, set())
+            ret[token].add(index)
+    
+    return ret
+            
+
+def orSearch(inverseIndex: dict[str, set[int]], query: list[str]) -> set[int]:
+    """ 逆インデックス inverseIndex と単語のリスト query を受け取り、
+    query 内の単語のどれかが含まれている文書の文書番号の集合を返す関数
+    p.44 課題 0.6.7 """
+    ret: set[int] = set()
+    for token in query:
+        if token in inverseIndex:
+            ret = ret | inverseIndex[token]
+
+    return ret
+
+
+def andSearch(inverseIndex: dict[str, set[int]], query: list[str]) -> set[int]:
+    """ 逆インデックス inverseIndex と単語のリスト query を受け取り、
+    query 内の単語の全てが含まれている文書の文書番号の集合を返す関数
+    p.44 課題 0.6.8 """
+    ret: set[int] = set()
+    for token in query:
+        if token in inverseIndex:
+            ret = ret & inverseIndex[token]
+
+    return ret
+
+
 if __name__ == "__main__":
-    assert cubes([1, 2, 3]) == [1, 8, 27]
-    assert dict2list({"a": "A", "b": "B", "c": "C"}, ["b", "c", "a"]) == ["B", "C", "A"]
-    assert list2dict(["A", "B", "C"], ["a", "b", "c"]) == {"a": "A", "b": "B", "c": "C"}
-    assert all_3_digit_numbers(2, {0, 1}) == {0, 1, 2, 3, 4, 5, 6, 7}
-    assert all_3_digit_numbers(3, {0, 1, 2}) == {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                                                 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                                                 20, 21, 22, 23, 24, 25, 26}
-    assert listrange2dict(["A", "B", "C"]) == {0: "A", 1: "B", 2: "C"}
+    with open("stories_small.txt") as f:
+        lines_list = f.readlines()
+
+    print(orSearch(makeInverseIndex(lines_list), ["Shanghai", "Xian"]))        
