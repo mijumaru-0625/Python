@@ -106,5 +106,31 @@ def tuple_sum(A: list[tuple], B: list[tuple]):
     p.44 問題 0.8.1 """
     return [(t1[0] + t2[0], t1[1] + t2[1]) for t1, t2 in zip(A, B)]
 
+
+def inv_dict(d: dict) -> dict:
+    """ 入力 : 可逆な関数 f を返す辞書 d
+    出力 : f の逆関数を返す辞書。つまり、キーが d の値で、それに対応する d のキーが値となる
+    例 : 次のような英語・フランス語の辞書が与えられると
+         {"thank you": "merci", "goodbye": "au revoir"}
+         以下のようなフランス語・英語の辞書が返される。
+         {"merci": "thank you", "au revoir": "goodbye"}
+    p.44 問題 0.8.2 """
+    return {v: k for k, v in d.items()}
+
+
+def row(p: int, n: int) -> list[int]:
+    """ 入力 : 整数 p 、整数 n
+    出力 : i 番目の要素が p + i となるような n 個の要素からなるリスト
+    例 : p = 10 と n = 4 が与えられると、[10, 11, 12, 13] を返す
+    p.45 問題 0.8.3 """
+    return [p + i for i in range(n)]
+
+
 if __name__ == "__main__":
-    assert tuple_sum([(1, 2), (10, 20)], [(3, 4), (30, 40)]) == [(4, 6), (40, 60)]
+    assert row(10, 4) == [10, 11, 12, 13]
+
+    list_a = [row(i + 1, 20) for i in range(1, 16)]
+    print(list_a)
+
+    list_b = [[j + 1 + i for i in range(20)] for j in range(1, 16)]
+    print(list_a == list_b)
