@@ -97,5 +97,14 @@ def mini_search_engine():
     print(andSearch(makeInverseIndex(lines_list), ["for", "example"]))        
 
 
+def tuple_sum(A: list[tuple], B: list[tuple]):
+    """ 入力 : 同じ長さのリスト A 、B 。ただしそれぞれの要素は数字の組 (x, y) からなる。
+    出力 : (x, y) から成るリストで、i 番目の組ははじめの要素が
+    A の i 番目の組のはじめの要素と B の i 番目の組のはじめの要素を足したもの、
+    i 番目の組の次の要素が A の i 番目の組の次の要素と B の i 番目の組の次の要素を足したもの。
+    例 : [(1, 2), (10, 20)] と [(3, 4), (30, 40)] に対し、[(4, 6), (40, 60)] を返す。    
+    p.44 問題 0.8.1 """
+    return [(t1[0] + t2[0], t1[1] + t2[1]) for t1, t2 in zip(A, B)]
+
 if __name__ == "__main__":
-    mini_search_engine()
+    assert tuple_sum([(1, 2), (10, 20)], [(3, 4), (30, 40)]) == [(4, 6), (40, 60)]
