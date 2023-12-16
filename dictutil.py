@@ -29,8 +29,14 @@ def all_3_digit_numbers(base: int, digits: set[int]) -> set:
     出力 : 底が base である 3 つの数字全てから成る数の集合
 
     p.38 課題 0.5.32 """
-    return set([x1 * base ** 2 + x2 * base * 1 + x3 for x1 in digits for x2 in digits for x3 in digits])
+    return {x1 * base ** 2 + x2 * base * 1 + x3 for x1 in digits for x2 in digits for x3 in digits}
 
+
+def listrange2dict(L: list) -> dict:
+    """ 入力 : リスト L
+    出力 : i = 0, 1, 2, ..., len(L) - 1 に対して、i を L[i] に写像する辞書
+    p.41 課題 0.6.4 """
+    return {k: v for k, v in enumerate(L)}
 
 if __name__ == "__main__":
     assert cubes([1, 2, 3]) == [1, 8, 27]
@@ -40,3 +46,4 @@ if __name__ == "__main__":
     assert all_3_digit_numbers(3, {0, 1, 2}) == {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                                                  10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
                                                  20, 21, 22, 23, 24, 25, 26}
+    assert listrange2dict(["A", "B", "C"]) == {0: "A", 1: "B", 2: "C"}
