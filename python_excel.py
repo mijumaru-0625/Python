@@ -15,44 +15,23 @@ def show_messagebox():
     """ メッセージボックスを表示する """
     #root = tkinter.Tk()    # この行不要だった?
     #root.withdraw()        # この行不要だった?
-    messagebox.showinfo("お知らせ", "作業を開始してください")
+    print(messagebox.showinfo("お知らせ", "作業を開始してください"))
+    print(messagebox.showwarning("警告", "作業を開始してください"))
+    print(messagebox.showerror("エラー", "作業を開始してください"))
+    ret = messagebox.askquestion("質問", "はい、いいえで答えて") # 戻り値が文字列の "yes" または "no"
+    print(ret, type(ret))
+    print(messagebox.askokcancel("質問", "OK、キャンセルで答えて"))
+    print(messagebox.askretrycancel("質問", "再試行、キャンセルで答えて"))
+    print(messagebox.askyesno("質問", "はい、いいえで答えて"))
+    print(messagebox.askyesnocancel("質問", "はい、いいえ、キャンセルで答えて"))
 
 #show_messagebox()
-    
-class Player:
-    score = 0  # これはクラス変数ではないのか? クラス.変数名でアクセスする必要あり
 
-p1 = Player()
-p2 = Player()
-print("値設定前、インスタンス変数")
-print(F"プレイヤー1:{p1.score}点\n"
-      F"プレイヤー2:{p2.score}点")
+from tkinter import simpledialog
 
-p1.score = 15   # これはインスタンス変数に代入していることになると推測
-p2.score = 20   # 〃
-
-print("値設定後、インスタンス変数、クラス変数")
-print(F"プレイヤー1:{p1.score}点\n"
-      F"プレイヤー2:{p2.score}点")
-print(F"プレイヤー1:{Player.score}点\n"
-      F"プレイヤー2:{Player.score}点")
-
-class Dog:
-    kind = "canine"
-
-    def __init__(self, name) -> None:
-        self.name = name
-
-d = Dog("Fido")
-e = Dog("Buddy")
-print(d.kind)
-print(e.kind)
-print(d.name)
-print(e.name)
-
-d.kind = "d の種類変更した"
-
-print(d.kind)
-print(e.kind)
-print(d.name)
-print(e.name)
+root = tkinter.Tk()    # この行不要だった?
+root.withdraw()        # この行不要だった?
+kosu = simpledialog.askinteger("購入数", "購入したい個数を入力してください")
+if kosu:
+    kingaku = kosu * 120
+    messagebox.showinfo("金額", F"購入金額:{kingaku}円")
