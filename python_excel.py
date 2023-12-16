@@ -11,6 +11,9 @@ Excel 自動処理
 import tkinter
 from tkinter import messagebox
 
-root = tkinter.Tk()
-root.withdraw()
+#def show_messagebox():
+#    """ メッセージボックスを表示する """
+
+#root = tkinter.Tk()
+#root.withdraw()
 messagebox.showinfo("お知らせ", "作業を開始してください")
