@@ -1,16 +1,22 @@
 # plotting.py を http://resources.codingthematrix.com/ からダウンロード
 from plotting import plot 
+from image import file2image
 
-S = { 2 + 2j, 3 + 2j, 
-      1.75 + 1j, 2 + 1j, 2.25 + 1j, 2.5 + 1j, 2.75 + 1j, 3 + 1j, 3.25 + 1j}
-plot(S, 4) # ブラウザ（Edge）が開いていないと正しく動作しない
+# 課題 1.4.10
 
-plot({z / 2 for z in S}, 4)
-#plot({-1 * z for z in S}, 4)
-#plot({1j * z for z in S}, 4)
+data = file2image("img/img01.png")
+width = len(data[0])
+height = len(data)
+print(width, height)
 
-# 課題 1.4.8
-plot({z * 1j * 0.5 for z in S}, 4)
+pts = [x + (height - y) * 1j for y, p_list in enumerate(data) for x, c in enumerate(p_list) if c[0]  < 120] 
+plot(pts, max(width, height))
 
-# 課題 1.4.9
-plot({z * 1j * 0.5 + 2 - 1j for z in S}, 4)
+def f(z: complex):
+    """ 課題 1.4.11 S が表す画像の中心を原点にずらすような関数 """
+    return z - width / 2.0 - height / 2.0 * 1j
+
+plot([f(z) for z in pts], max(width, height))
+
+# 課題 1.4.12
+plot([z * 1j * 0.5 for z in pts], max(width, height))
