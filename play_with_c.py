@@ -1,34 +1,43 @@
-from math import e
-from math import pi
 
-# plotting.py を http://resources.codingthematrix.com/ からダウンロード
-from plotting import plot 
-from image import file2image
+src = "10101 00100 10101 01011 11001 00011 01011 10101 00100 11001 11010"
+print("暗号の文字", src)
+tokens = str.split(src)
 
-def rotate(z: complex, t: float) -> complex:
-    """ 複素数 z を t ラジアン回転させる関数 """
-    return z * e ** (t * 1j)
+bits = ["0", "1"]
+pass_key = ["".join((a, b, c, d, e)) for a in bits for b in bits for c in bits for d in bits for e in bits]
+pass_key_value = [int(v, 2) for v in pass_key]
+print("復号キーのリスト", pass_key)
+#print(pass_key_value)
+
+pass_key_to_int = {k:v for k, v in zip(pass_key, pass_key_value)}
+#print(pass_key_to_int)
+
+chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?????"
+int_to_chars = {i: v for i, v in enumerate(chars)}
+print("数値 → 文字の対応表", int_to_chars)
+
+print("暗号のリスト", tokens)
+#print([pass_key_to_int[s] for s in tokens])
+print("".join([int_to_chars[pass_key_to_int[s]] for s in tokens]))
+print()
+
+def f(c_str: str, k_str: str) -> str:
+    """ 暗号 c_str に復号キー k_str を XOR します """
+    ret = []
+    for c, k in zip(list(c_str), list(k_str)):
+        if c == k:
+            ret.append("0")
+        else:
+            ret.append("1")
+
+    return "".join(ret)
 
 
-S = { 2 + 2j, 3 + 2j, 
-      1.75 + 1j, 2 + 1j, 2.25 + 1j, 2.5 + 1j, 2.75 + 1j, 3 + 1j, 3.25 + 1j}
+for k in pass_key:
+    print("復号キー", k)
+    answer = [f(s, k) for s in tokens]
+    print(answer)
+    print("".join([int_to_chars[pass_key_to_int[s]] for s in answer]))
+    print()
 
-# 課題 1.4.18
-plot({rotate(z, pi / 4.0) for z in S}, 4) # ブラウザ（Edge）が開いていないと正しく動作しない ?
-
-data = file2image("img/img01.png")
-width = len(data[0])
-height = len(data)
-print(width, height)
-pts = {x + (height - y) * 1j for y, p_list in enumerate(data) for x, c in enumerate(p_list) if c[0]  < 120}
-
-def center_to_o(z: complex) -> complex:
-    """ 課題 1.4.11 S が表す画像の中心を原点にずらすような関数 """
-    return z - width / 2.0 - height / 2.0 * 1j
-
-
-# 課題 1.4.19
-plot({rotate(z, pi / 4.0) for z in pts}, max(width, height) * 1.5)
-
-# 課題 1.4.20
-plot({rotate(center_to_o(z) * 0.5, pi / 4.0) for z in pts}, max(width, height))
+# 復号キー 10001 復号文字 EVE IS EVIL
