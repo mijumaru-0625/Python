@@ -1,43 +1,35 @@
 
-src = "10101 00100 10101 01011 11001 00011 01011 10101 00100 11001 11010"
-print("暗号の文字", src)
-tokens = str.split(src)
+def my_filter(L: list, num: int) -> list:
+    """ 入力 : 数のリスト L と正の整数 num
+    出力 : L のうち num の倍数を含まない数のリスト
+    例 : list = [1, 2, 4, 5, 7] 及び num = 2 を与えると [1, 5, 7] を返す。
+    問題 1.7.1 """
+    return [n for n in L if n % num != 0]
 
-bits = ["0", "1"]
-pass_key = ["".join((a, b, c, d, e)) for a in bits for b in bits for c in bits for d in bits for e in bits]
-pass_key_value = [int(v, 2) for v in pass_key]
-print("復号キーのリスト", pass_key)
-#print(pass_key_value)
+assert my_filter([1, 2, 4, 5, 7], 2) == [1, 5, 7]
 
-pass_key_to_int = {k:v for k, v in zip(pass_key, pass_key_value)}
-#print(pass_key_to_int)
+def my_lists(L: list[int]) -> list[list[int]]:
+    """ 入力 : 非負整数のリスト L
+    出力 : L のそれぞれの要素 x を 1, 2, ..., x から成るリストにしたリスト 
+    例1 : [1, 2, 4] を与えると [[1], [1, 2], [1, 2, 3, 4]] が返される。
+    例2 : [0] を与えると [[]] が返される。
+    問題 1.7.2 """
+    # ret = []
+    # for n in L:
+    #     ret.append([i for i in range(1, n + 1)])
 
-chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?????"
-int_to_chars = {i: v for i, v in enumerate(chars)}
-print("数値 → 文字の対応表", int_to_chars)
+    # return ret
+    return [[i for i in range(1, n + 1)] for n in L]    
 
-print("暗号のリスト", tokens)
-#print([pass_key_to_int[s] for s in tokens])
-print("".join([int_to_chars[pass_key_to_int[s]] for s in tokens]))
-print()
+assert my_lists([1, 2, 4]) == [[1], [1, 2], [1, 2, 3, 4]]
+assert my_lists([0]) == [[]]
 
-def f(c_str: str, k_str: str) -> str:
-    """ 暗号 c_str に復号キー k_str を XOR します """
-    ret = []
-    for c, k in zip(list(c_str), list(k_str)):
-        if c == k:
-            ret.append("0")
-        else:
-            ret.append("1")
+def my_function_composition(f: dict, g: dict) -> dict:
+    """ 入力 : 辞書として定義された 2 つの関数 f 、g 。ただし、g・f が存在すること。
+    出力 : g・f を表す辞書
+    例 : f = {0: "a", 1: "b"} 、g = {"a": "apple", "b": "banana"} を与えると、
+    {0: "apple", 1: "banana"} を返す。
+    問題 1.7.3 """
+    return {k:g[f[k]] for k, v in f.items()}
 
-    return "".join(ret)
-
-
-for k in pass_key:
-    print("復号キー", k)
-    answer = [f(s, k) for s in tokens]
-    print(answer)
-    print("".join([int_to_chars[pass_key_to_int[s]] for s in answer]))
-    print()
-
-# 復号キー 10001 復号文字 EVE IS EVIL
+assert my_function_composition({0: "a", 1: "b"}, {"a": "apple", "b": "banana"}) == {0: "apple", 1: "banana"}
