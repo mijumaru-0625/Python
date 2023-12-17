@@ -1,22 +1,22 @@
+from math import e
+from math import pi
+
 # plotting.py を http://resources.codingthematrix.com/ からダウンロード
 from plotting import plot 
-from image import file2image
 
-# 課題 1.4.10
+print(F"e={e}")
+print(F"π={pi}")
 
-data = file2image("img/img01.png")
-width = len(data[0])
-height = len(data)
-print(width, height)
+n = 20
+print(F"n={n}")
 
-pts = [x + (height - y) * 1j for y, p_list in enumerate(data) for x, c in enumerate(p_list) if c[0]  < 120] 
-plot(pts, max(width, height))
+w = e ** (2 * pi * 1j / n)
+print(F"w = e ** (2πi)/n = {w}")
 
-def f(z: complex):
-    """ 課題 1.4.11 S が表す画像の中心を原点にずらすような関数 """
-    return z - width / 2.0 - height / 2.0 * 1j
+w_list = [w ** i for i in range(n)]
+for i in range(n):
+    print(F"i = {i} : w ** {i} = {w_list[i]}")
 
-plot([f(z) for z in pts], max(width, height))
+plot(w_list, 1.5) # 課題 1.4.8
 
-# 課題 1.4.12
-plot([z * 1j * 0.5 for z in pts], max(width, height))
+print(F"e ** (iπ) + 1 = {e ** (pi * 1j) + 1}")
