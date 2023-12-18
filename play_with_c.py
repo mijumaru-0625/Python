@@ -1,35 +1,50 @@
 
-def my_filter(L: list, num: int) -> list:
-    """ 入力 : 数のリスト L と正の整数 num
-    出力 : L のうち num の倍数を含まない数のリスト
-    例 : list = [1, 2, 4, 5, 7] 及び num = 2 を与えると [1, 5, 7] を返す。
-    問題 1.7.1 """
-    return [n for n in L if n % num != 0]
+def mySum(L: list):
+    """ 入力 : 数のリスト
+    出力 : そのリスト内の数の総和"""
+    current = 0
+    for x in L:
+        current = current + x
 
-assert my_filter([1, 2, 4, 5, 7], 2) == [1, 5, 7]
+    return current
 
-def my_lists(L: list[int]) -> list[list[int]]:
-    """ 入力 : 非負整数のリスト L
-    出力 : L のそれぞれの要素 x を 1, 2, ..., x から成るリストにしたリスト 
-    例1 : [1, 2, 4] を与えると [[1], [1, 2], [1, 2, 3, 4]] が返される。
-    例2 : [0] を与えると [[]] が返される。
-    問題 1.7.2 """
-    # ret = []
-    # for n in L:
-    #     ret.append([i for i in range(1, n + 1)])
 
-    # return ret
-    return [[i for i in range(1, n + 1)] for n in L]    
+def myProduct(L: list):
+    """ 入力 : 数のリスト
+    出力 : そのリスト内の数の総乗 """
+    current = 1
+    for x in L:
+        current = current * x
 
-assert my_lists([1, 2, 4]) == [[1], [1, 2], [1, 2, 3, 4]]
-assert my_lists([0]) == [[]]
+    return current
 
-def my_function_composition(f: dict, g: dict) -> dict:
-    """ 入力 : 辞書として定義された 2 つの関数 f 、g 。ただし、g・f が存在すること。
-    出力 : g・f を表す辞書
-    例 : f = {0: "a", 1: "b"} 、g = {"a": "apple", "b": "banana"} を与えると、
-    {0: "apple", 1: "banana"} を返す。
-    問題 1.7.3 """
-    return {k:g[f[k]] for k, v in f.items()}
 
-assert my_function_composition({0: "a", 1: "b"}, {"a": "apple", "b": "banana"}) == {0: "apple", 1: "banana"}
+def myMin(L: list):
+    """ 入力 : 数のリスト
+    出力 : そのリスト内の数の最小値 """
+    current = 1.7976931348623157e+308
+    for x in L:
+        current = x if x < current else current
+
+    return current
+
+
+def myConcat(L: list[str]) -> str:
+    """ 入力 : 文字列のリスト
+    出力 : L 内の全ての文字列を連結してできた文字列 """
+    current = ""
+    for x in L:
+        current = current + x
+
+    return current
+
+
+def myUnion(L: list(set)) -> set:
+    """ 入力 : 集合のリスト
+    出力 : L 内のすべての集合の和集合 """
+    current = set()
+    for x in L:
+        current = current | x
+
+    return current
+
