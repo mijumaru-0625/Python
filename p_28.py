@@ -1,4 +1,3 @@
-import os
 import pandas as pd # pip install pandas
 import matplotlib.pyplot as plt # pip install matplotlib
 from matplotlib.colors import ListedColormap
