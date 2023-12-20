@@ -7,20 +7,6 @@ import numpy as np
 # のダウンロードボタンから iris.zip をダウンロード
 # 解凍して iris.data を取得
 
-# p.28
-
-df = pd.read_csv("iris.data", header=None, encoding="utf-8")
-#print(df.tail())
-
-# p.29
-
-# 1-100 行目の目的変数の抽出、4 というのは 5 列目
-y = df.iloc[0:100, 4].values
-# Iris-setosa を -1、Iris-versicolor を 1 に変換
-y = np.where(y == "Iris-setosa", -1, 1)
-# 1-100 行目の 1、3 列目の抽出
-X = df.iloc[0:100, [0, 2]].values
-
 def plot_input_data():
     """ p.28～30 入力データを散布図で確認する関数 """
     # 品種 setosa のプロット（赤の〇）
@@ -34,9 +20,6 @@ def plot_input_data():
     plt.legend(loc="upper left")
     # 図の表示
     plt.show()
-
-print("入力データの確認")
-#plot_input_data() # 入力データの散布図を表示
 
 class Perceptron(object):
     """ パーセプトロンの分類器 p.24 より
@@ -110,12 +93,6 @@ class Perceptron(object):
         return np.where(self.net_input(X) >= 0.0, 1, -1)
 
 
-# p.30
-# パーセプトロンのオブジェクトの生成（インスタンス化）
-ppn = Perceptron(eta=0.1, n_iter=10)
-# 訓練データへのモデルモデルの適合
-ppn.fit(X, y)
-
 def plot_epochs_vs_number_of_updates():
     ''' 横軸をエポック数（≒検討回数）、縦軸を誤分類の個数とするグラフの表示 '''
     # エポックと誤分類の関係を表す折れ線グラフをプロット
@@ -126,8 +103,6 @@ def plot_epochs_vs_number_of_updates():
     # 図の表示
     plt.show()
 
-print("学習経過の確認")
-#plot_epochs_vs_number_of_updates()
 
 def plot_decision_regions(X, y, classifier, resolution=0.02):
     # マーカーとカラーマップの準備
@@ -153,7 +128,6 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
 
     # クラスごとに訓練データをプロット
     for idx, cl in enumerate(np.unique(y)):
-        print(idx, cl)
         plt.scatter(x=X[y == cl, 0],
                     y=X[y == cl, 1],
                     alpha=0.8,
@@ -174,5 +148,33 @@ def plot_result():
     # 図の表示
     plt.show()
 
-print("決定領域のプロット")
-plot_result()
+
+if __name__ == "__main__":
+    # p.28
+
+    df = pd.read_csv("iris.data", header=None, encoding="utf-8")
+    print(df.tail())
+
+    # p.29
+
+    # 1-100 行目の目的変数の抽出、4 というのは 5 列目
+    y = df.iloc[0:100, 4].values
+    # Iris-setosa を -1、Iris-versicolor を 1 に変換
+    y = np.where(y == "Iris-setosa", -1, 1)
+    # 1-100 行目の 1、3 列目の抽出
+    X = df.iloc[0:100, [0, 2]].values
+
+    print("入力データの確認")
+    plot_input_data() # 入力データの散布図を表示
+
+    # p.30
+    # パーセプトロンのオブジェクトの生成（インスタンス化）
+    ppn = Perceptron(eta=0.1, n_iter=10)
+    # 訓練データへのモデルモデルの適合
+    ppn.fit(X, y)
+
+    print("学習経過の確認")
+    plot_epochs_vs_number_of_updates()
+
+    print("決定領域のプロット")
+    plot_result()
