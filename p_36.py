@@ -87,12 +87,6 @@ class AdalineGD(object):
         return np.where(self.activation(self.net_input(X)) >= 0.0, 1, -1)
     
 
-# 入力データの準備
-df = pd.read_csv("iris.data", header=None, encoding="utf-8")
-y = df.iloc[0:100, 4].values
-y = np.where(y == "Iris-setosa", -1, 1)
-X = df.iloc[0:100, [0, 2]].values
-
 def fit_adaline():
     # 描画領域を 1 行 2 列に分割
     fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
@@ -121,38 +115,49 @@ def fit_adaline():
     plt.show()
 
 
-# p.40 の図を出す
-print("ADALINE で 2 つの学習率で、エポック数に対するコストをプロットしてみよう")
-#fit_adaline()
 
-print("p.40 2.5.2 特徴量のスケーリングを通じて勾配降下法を改善する")
-# データのコピー
-X_std = np.copy(X)
-# 各列の標準化
-X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
-X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
+def std_adaline():
+    print("p.40 2.5.2 特徴量のスケーリングを通じて勾配降下法を改善する")
+    # データのコピー
+    X_std = np.copy(X)
+    # 各列の標準化
+    X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
+    X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
 
-# 勾配降下法による ADALINE の学習（標準化後、学習率 eta=0.01）
-ada_gd = AdalineGD(n_iter=15, eta=0.01)
-# モデルの適合
-ada_gd.fit(X_std, y)
-# 境界領域のプロット
-plot_decision_regions(X_std, y, classifier=ada_gd)
-# タイトルの設定
-plt.title("Adaline - Gradient Descent")
-# 軸のラベルの設定
-plt.xlabel("sepal length [standardized]")
-plt.ylabel("petal length [standardized]")
-# 凡例の設定（左上に配置）
-plt.legend(loc="upper left")
-# 図の表示
-plt.tight_layout()
-plt.show()
-# エポック数とコストの関係を表す折れ線グラフのプロット
-plt.plot(range(1, len(ada_gd.cost_) + 1), ada_gd.cost_, marker="o")
-# 軸のラベルの設定
-plt.xlabel("Epochs")
-plt.ylabel("Sum-squared-errors")
-# 図の表示
-plt.tight_layout()
-plt.show()
+    # 勾配降下法による ADALINE の学習（標準化後、学習率 eta=0.01）
+    ada_gd = AdalineGD(n_iter=15, eta=0.01)
+    # モデルの適合
+    ada_gd.fit(X_std, y)
+    # 境界領域のプロット
+    plot_decision_regions(X_std, y, classifier=ada_gd)
+    # タイトルの設定
+    plt.title("Adaline - Gradient Descent")
+    # 軸のラベルの設定
+    plt.xlabel("sepal length [standardized]")
+    plt.ylabel("petal length [standardized]")
+    # 凡例の設定（左上に配置）
+    plt.legend(loc="upper left")
+    # 図の表示
+    plt.tight_layout()
+    plt.show()
+    # エポック数とコストの関係を表す折れ線グラフのプロット
+    plt.plot(range(1, len(ada_gd.cost_) + 1), ada_gd.cost_, marker="o")
+    # 軸のラベルの設定
+    plt.xlabel("Epochs")
+    plt.ylabel("Sum-squared-errors")
+    # 図の表示
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    # 入力データの準備
+    df = pd.read_csv("iris.data", header=None, encoding="utf-8")
+    y = df.iloc[0:100, 4].values
+    y = np.where(y == "Iris-setosa", -1, 1)
+    X = df.iloc[0:100, [0, 2]].values
+
+    # p.40 の図を出す
+    print("ADALINE で 2 つの学習率で、エポック数に対するコストをプロットしてみよう")
+    fit_adaline()
+
+    std_adaline()
