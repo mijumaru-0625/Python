@@ -48,7 +48,7 @@ class AdalineGD(object):
         self.cost_ = []
 
         for i in range(self.n_iter): # 訓練回数分まで訓練データを反復
-            net_input = self.net_input(X) # データ数分の配列です
+            net_input = self.net_input(X) # データ数分の配列です、つまり、100 個分のデータ
 
             # activation メソッドは単なる恒等関数（y=x の関数ということ）であるため、
             # このコードでは何の効果もないことに注意。代わりに、

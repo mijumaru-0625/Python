@@ -153,6 +153,8 @@ if __name__ == "__main__":
     # p.28
 
     df = pd.read_csv("iris.data", header=None, encoding="utf-8")
+    
+    print("入力データ最後の 5 行")
     print(df.tail())
 
     # p.29
