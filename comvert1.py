@@ -8,12 +8,28 @@
 
 n = 18
 
-result = ""
+def convert(n:int, base:int) -> str:
+    """ 10 進数の数値 n を、base 進数の表記の文字列にして返します
 
-while n > 0:
-    result = str(n % 2) + result    # ← あまりを文字列の左側に追加していく
-    n //= 2                         # 2 で割った商を再度代入する
+    パラメーター
+    ---
+    n
+        変更したい 10 進数
+    base
+        変更先の基数 """
+    result = ""
 
-print(result)
+    while n > 0:
+        result = str(n % base) + result    # ← あまりを文字列の左側に追加していく
+        n //= base                         # base で割った商を再度代入する
 
-print(int(result, 2))               # int 関数で 10 進数に戻して確認
+    return result
+
+print(a := convert(n, 2))
+assert int(a, 2) == n
+
+print(a := convert(n, 3))
+assert int(a, 3) == n
+
+print(a := convert(n, 8))
+assert int(a, 8) == n
