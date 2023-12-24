@@ -76,38 +76,44 @@ def print_maze():
 print_maze()
 
 print()
-print("迷路の探索（番兵）深さ優先探索")
+print("迷路の探索（番兵）右手法による深さ優先探索")
 
-def search(x, y, depth):
-    """ 深さ優先探索 """
-    # ゴールに着くと終了
-    if maze[y][x] == 1:
-        print(depth)
-        print_maze()
-        exit() # 再帰呼び出しとなっているので　return ではだめ
-    
+# 右手法での移動方向（下、右、上、左）をセット
+dir = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+
+# スタート位置(x 座標、y 座標、移動回数、方向)をセット
+x, y, depth, d = 1, 1, 0, 0
+
+
+while maze[y][x] != 1:
     # 探索済みとしてセット
     maze[y][x] = 2
 
     print(str(depth) + " ")
     print_maze()
-    time.sleep(0.2)
+    time.sleep(0.5)
     print(F"\033[{len(maze) + 2}A")
 
-    # 上下左右を探索
-    if maze[y - 1][x] < 2:
-        search(x, y - 1, depth + 1)     # 移動回数を増やして上を探索
+    # 右手法で探索
+    for i in range(len(dir)):
+        # 進行方向から右側に順に探す
+        j = (d + i - 1) % len(dir) # 移動方向の個数で割ってあまりを求めることで、次の方向を求める
+        if maze[y + dir[j][1]][x + dir[j][0]] < 2: # 次の方向を決める
+            # 未訪問の場合は進めて移動回数を増やす
+            x += dir[j][0]
+            y += dir[j][1]
+            d = j
+            depth += 1
+            break
 
-    if maze[y + 1][x] < 2:
-        search(x, y + 1, depth + 1)     # 移動回数を増やして下を探索
-        
-    if maze[y][x - 1] < 2:
-        search(x - 1, y, depth + 1)     # 移動回数を増やして左を探索
-
-    if maze[y][x + 1] < 2:
-        search(x + 1, y, depth + 1)     # 移動回数を増やして右を探索
-
+        elif maze[y + dir[j][1]][x + dir[j][0]] == 2:
+            # 訪問済みの場合は進めて移動回数を減らす
+            x += dir[j][0]
+            y += dir[j][1]
+            d = j
+            depth -= 1
+            break
 
 
-# スタート位置から開始
-search(1, 1, 0)
+print(str(depth) + " ")
+print("\n" * len(maze))
