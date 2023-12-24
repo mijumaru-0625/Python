@@ -12,7 +12,7 @@ def f(x):
     else:
         return x + 1
     
-x = symbols("x")
+x, y, z = symbols("x y z")
 
 print("The Fully Evaluated Case")
 print(f(0))
@@ -29,7 +29,7 @@ print(f.subs(x, 1))
 print(f)
 print()
 
-from sympy import pi, Integer
+from sympy import pi, Integer, cos
 
 class versin(Function):
     @classmethod
@@ -59,3 +59,6 @@ class f(Function):
 print(f(1).args)
 print(f(1, 2).args)
 print(f(1, 2, 3).args)
+print()
+
+print(versin(x + y))
