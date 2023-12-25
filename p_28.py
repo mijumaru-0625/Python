@@ -104,7 +104,7 @@ def plot_epochs_vs_number_of_updates():
     plt.show()
 
 
-def plot_decision_regions(X, y, classifier, resolution=0.02):
+def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
     # マーカーとカラーマップの準備
     markers = ("s", "x", "o", "^", "v")
     colors = ("red", "blue", "lightgreen", "gray", "cyan")
@@ -134,7 +134,14 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
                     c=colors[idx],
                     marker=markers[idx],
                     label=cl,
-                    edgecolors="black")
+                    edgecolor="black")
+        
+    # テストデータ点を目立たせる（点を〇で表示）
+    if test_idx:
+        # すべてのデータ点をプロット
+        X_test, y_test = X[test_idx, :], y[test_idx]
+        plt.scatter(X_test[:, 0], X_test[:, 1], edgecolors="black",
+                    alpha=0.2, linewidths=1, marker="o", s=100, label="test set")
         
 
 def plot_result():
