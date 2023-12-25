@@ -22,6 +22,12 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
+# ウィンドウのリサイズに追従するようにできた
+mainframe.columnconfigure(2, weight=1) # 真ん中の列が横に伸びる
+mainframe.rowconfigure(1, weight=1)
+mainframe.rowconfigure(2, weight=1)
+#mainframe.rowconfigure(3, weight=1)
+
 feet = StringVar()
 feet_entry = ttk.Entry(mainframe, width=7, textvariable=feet)
 feet_entry.grid(column=2, row=1, sticky=(W, E))
