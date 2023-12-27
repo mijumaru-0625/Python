@@ -17,7 +17,10 @@ def calculate(*args):
 root = Tk()
 root.title("メートルに換算")
 
-mainframe = ttk.Frame(root, padding="3 3 12 12")
+s = ttk.Style()
+s.configure("Danger.TFrame", background="red", borderwidth=5, relief="raised")
+
+mainframe = ttk.Frame(root, padding="3 3 12 12", style="Danger.TFrame")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
