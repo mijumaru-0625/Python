@@ -6,76 +6,32 @@ Advanced Expression Manipulation のページを実際に
 """
 
 # Understanding Expression Trees
-from sympy import *
-x, y, z = symbols("x y z")
-
-expr = x**2 + x*y
-print(srepr(expr))
-
-print(srepr(x**2))
-
-print(Pow(x, 2))
-
-print(type(2))
-
-print(type(sympify(2)))
-print(type(sympify("2")))
-
-print(srepr(x*y))
-
-print(Mul(x, y))
-
-print(Add(Pow(x, 2), Mul(x, y)))
-
-expr = sin(x*y)/2 - x**2 + 1/y
-print(srepr(expr))
-
-print(srepr(x - y))
-
-expr = x/y
-print(srepr(expr))
-
-print(1 + x)
-
-x = Symbol("x", commutative=False)
-print(1 + x)
+from sympy import Symbol, Function
+from sympy.parsing.sympy_parser import parse_expr, T
 
 x = Symbol("x")
-print(1 + x)
+y = Symbol("y")
 
-# Recursing through an Expression Tree
-# func
-expr = Add(x, x)
-print(expr.func)
-print(expr)
+local_dict = {}
+local_dict["x"] = x
+local_dict["y"] = y
 
-print(Integer(2).func)
-print(isinstance(Integer(2), Integer))
-print(Integer(0).func)
-print(isinstance(Integer(0), Integer))
-print(Integer(-1).func)
-print(isinstance(Integer(-1), Integer))
+# 計算のみ実行する自作関数
+def func_abc(x):
+    return abs(x) + 1
 
-# args
-expr = 3*y**2*x
-print(expr)
-print(expr.func)
-print(expr.args)
 
-print(expr.func(*expr.args))
-print(expr == expr.func(*expr.args))
+class func_def(Function):
+    @classmethod
+    def eval(cls, x):
+        pass
 
-expr = y**2 * 3 * x
-print(expr.args)
+    # def _eval_evalf(self, prec):
+    #     return (abs(x) - 1)._eval_evalf(prec)
+    
 
-print(expr.args[2])
-
-print(expr.args[2].args)
-
-print(y.args)
-print(Integer(2).args)
-print(y.func)
-print(Integer(2).func)
+local_dict["func_abc"] = globals()["func_abc"]
+local_dict["func_def"] = globals()["func_def"]
 
 # Walking the Tree
 def pre(expr):
@@ -83,13 +39,10 @@ def pre(expr):
     for arg in expr.args:
         pre(arg)
 
-expr = x*y + 1
-pre(expr)
+# Sympy を利用して式を評価すると簡単な関数は数値に変換してしまうことが判明した。
+# 元の数式が消えてしまう
+expr = parse_expr("x*y + 1 + abs(-3) + func_abc(-5.5) + func_def(4.5)", local_dict, T[2:5] , evaluate=False)
+print(F"expr = {expr}")
+#pre(expr)
 
-print("\npreoder_travasal 関数を使用")
-for arg in preorder_traversal(expr):
-    print(arg)
-
-print("\npostoder_travasal 関数を使用")
-for arg in postorder_traversal(expr):
-    print(arg)
+print("x = 1、y = 1 を与えて計算", expr.evalf(subs={x: 1, y: 1}))
