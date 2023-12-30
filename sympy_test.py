@@ -47,7 +47,7 @@ print("round 関数は四捨五入じゃない")
 
 class nint2(Function): # ninit 関数の定義 2 個目
     """ Creating a Custom Function
-     これは 四捨五入 関数を使用しているので間違い """
+     これは 四捨五入 関数を使用している """
     @classmethod
     def eval(cls, x, *args):
         # if x is an integer or float
