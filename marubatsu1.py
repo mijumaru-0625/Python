@@ -1,5 +1,6 @@
-""" p.157 リスト4.18 3 目並べ """
+""" p.160 リスト4.19 3 目並べ """
 
+import random
 
 def print_maru_batsu(p1, p2):
     """ 訳が分からないので盤面を表示します """
@@ -82,7 +83,9 @@ def play(p1, p2, turn):
     # 各場所に置いた時の評価値を調べる
     r = [minmax(p2, p1 | (1 << i), True) for i in w]
     # 評価値が一番高い場所を取得する
-    j = w[r.index(max(r))]
+    i = [i for i, x in enumerate(r) if x == max(r)]
+    # ランダムに 1 つ選ぶ
+    j = w[random.choice(i)]
     
     p1 = p1 | (1 << j)
     print_maru_batsu(p1, p2)
