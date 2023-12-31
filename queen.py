@@ -5,7 +5,7 @@ p.143
 
 import copy
 
-N = 8
+N = 11
 
 # 斜めのチェック
 def check(y_index_of_next_Q:int, col:list) -> bool:
@@ -60,7 +60,7 @@ def check_duplicate(currnet_index:int, rotate_angle:int = 0, currnet_y_index:lis
     else:
         for i in range(currnet_index):
             if y_index_list_of_Q[i] == currnet_y_index:
-                print(currnet_index, i , "と重複", msg)
+                print(F" {i}と{msg}で重複")
                 return False
 
 
@@ -68,14 +68,14 @@ def check_duplicate(currnet_index:int, rotate_angle:int = 0, currnet_y_index:lis
 
     for i in range(currnet_index):
         if y_index_list_of_Q[i] == check_list:
-            print(currnet_index, i , F"と{msg}左右反転で重複")
+            print(F" {i}と{msg}左右反転で重複")
             return False
         
     check_list = [N - 1 - i for i in currnet_y_index] # 上下反転
 
     for i in range(currnet_index):
         if y_index_list_of_Q[i] == check_list:
-            print(currnet_index, i , F"と{msg}上下反転で重複")
+            print(F" {i}と{msg}上下反転で重複")
             return False
 
     x_y_index_list = [(x, y) for x, y in enumerate(currnet_y_index)]
@@ -89,11 +89,13 @@ def check_duplicate(currnet_index:int, rotate_angle:int = 0, currnet_y_index:lis
 # 確認
 check_count = 0
 for i, y_index_of_Q in enumerate(y_index_list_of_Q):
+    print(i, y_index_of_Q, end="")
+
     if not check_duplicate(i):
         continue
 
+    print()
     check_count += 1
-    print(i, y_index_of_Q)
 
 
 print(F"重複なしは、{check_count} 個")
