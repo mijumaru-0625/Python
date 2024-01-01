@@ -1,18 +1,15 @@
-""" p.211 リスト6.1 動的計画法 """
+""" p.212 リスト6.2 メモ化 """
+
+import functools
 
 M, N = 6, 5
 
-route = [[0 for i in range(N + 1)] for j in range(M + 1)]
+# Python では以下の 1 行を追加するだけで再帰処理をメモ化できる
+@functools.lru_cache(maxsize=None)
+def search(m, n):
+    if (m == 0) or (n == 0):
+        return 1
+    
+    return search(m - 1, n) + search(m, n - 1)
 
-# 横方向の最初の 1 行をセット
-for i in range(M + 1):
-    route[i][0] = 1
-
-for i in range(1, N + 1):
-    # 縦方向の最初の 1 列をセット
-    route[0][i] = 1
-    for j in range(1, M + 1):
-        # 左と下から加算する
-        route[j][i] = route[j - 1][i] + route[j][i - 1]
-
-print(route[M][N])
+print(search(M, N))
