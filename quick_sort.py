@@ -7,24 +7,15 @@ def quick_sort(data):
         return data
     
     pivot = data[0]     # ピボットとしてリストの先頭を使用
-    left, right, same = [], [], 0
-
-    for i in data:
-        if i < pivot:
-            # ピボットより小さい場合は左に
-            left.append(i)
-
-        elif i > pivot:
-            # ピボットより大きい場合は右に
-            right.append(i)
-
-        else:
-            same += 1
+    # ピボットより小さいものでリストを作る
+    left = [i for i in data[1:] if i <= pivot]
+    # ピボットより大きいものでリストを作る
+    right = [i for i in data[1:] if i > pivot]
 
     left = quick_sort(left)     # 左側をソート
     right = quick_sort(right)   # 右側をソート
     # ソートされたものとピボットの値をあわせて返す
-    return left + [pivot] * same + right
+    return left + [pivot] + right
 
 
 print(quick_sort(data))
