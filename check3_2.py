@@ -21,15 +21,6 @@ target_population = 10000000
 
 pref_list = list(population_data.keys())    
 
-def count_population(index_list:list):
-    """ 引数のリストで与えた都道府県の人口を計算します """
-    pop = 0
-
-    for i in index_list:
-        pop += population_data[pref_list[i]]
-
-    return pop
-
 
 def delta_target_population(population):
     """ 引数の人口を、ターゲットとの差を絶対値で返します """
@@ -38,38 +29,43 @@ def delta_target_population(population):
 current_index_list = []
 current_delta = 0
 
-def update_current(index_list:list):
+def update_current(total_population, index_list:list):
     global current_index_list, current_delta
         
     current_index_list = copy.copy(index_list)
-    current_delta = delta_target_population(count_population(index_list))
+    current_delta = delta_target_population(total_population)
 
     pref_names = [pref_list[i] for i in index_list]
-    population = count_population(index_list)
-    print(pref_names, F"{population:,}", F"ターゲットとの差{current_delta:,}", )
+    print(pref_names, F"{total_population:,}", F"ターゲットとの差{current_delta:,}", )
 
 
-update_current(current_index_list)
+update_current(0, current_index_list)
 
 
-def make_index_list(index_list:list):
-    population = count_population(index_list)
-    delta = delta_target_population(population)
+def search(total_population, index_list:list):
+    delta = delta_target_population(total_population)
 
-    if population > target_population and delta > current_delta:
+    if total_population > target_population and delta > current_delta:
         return
 
     if delta <= current_delta:
-        update_current(index_list) # ベストデータの更新
+        update_current(total_population, index_list) # ベストデータの更新
 
-    
     for j in range(index_list[-1] + 1, len(pref_list)):
         index_list.append(j) 
-        make_index_list(index_list)
+        search(total_population + population_data[pref_list[j]], index_list)
         index_list.pop()
 
 
+
 for i in range(len(pref_list)):
-    make_index_list([i])                
+    search(population_data[pref_list[i]], [i])                
             
-            
+print(F'{population_data["栃木県"]:,}')
+print(F'{population_data["石川県"]:,}')
+print(F'{population_data["静岡県"]:,}')
+print(F'{population_data["愛媛県"]:,}')
+print(F'{population_data["熊本県"]:,}')
+p = population_data["栃木県"] + population_data["石川県"] + population_data["静岡県"] \
+    + population_data["愛媛県"]+ population_data["熊本県"]
+print(F'{p:,}')
