@@ -4,6 +4,8 @@ import pygame as pg, sys
 pg.init()
 screen = pg.display.set_mode((600, 650))
 pg.display.set_caption("MYGAME")
+player = pg.image.load("images/kaeru1.png")
+myrect = pg.Rect(250, 550, 50, 50) # 表示位置を指定
 
 # 2.メインループ
 while True:
@@ -13,7 +15,7 @@ while True:
 
     # 4.入力チェックや判断処理
     # 5.描画処理
-    pg.draw.rect(screen, pg.Color("RED"), (10, 20, 30, 40))
+    screen.blit(player, myrect)
     
     # 6.画面の表示
     pg.display.update()
