@@ -14,11 +14,14 @@ while True:
     screen.fill(pg.Color("NAVY"))
 
     # 4.入力チェックや判断処理
+    myrect.x += 1
+
     # 5.描画処理
     screen.blit(player, myrect)
     
     # 6.画面の表示
     pg.display.update()
+    pg.time.Clock().tick(60)
     
     # 7.閉じるボタンチェック
     for event in pg.event.get():
