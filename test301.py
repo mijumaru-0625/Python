@@ -14,7 +14,15 @@ while True:
     screen.fill(pg.Color("NAVY"))
 
     # 4.入力チェックや判断処理
-    myrect.x += 1
+    key = pg.key.get_pressed()
+    vx = 0
+    if key[pg.K_RIGHT]:
+        vx = 10
+    if key[pg.K_LEFT]:
+        vx = -10
+    if myrect.x + vx < 0 or myrect.x + vx > 550:
+        vx = 0
+    myrect.x += vx
 
     # 5.描画処理
     screen.blit(player, myrect)
