@@ -10,7 +10,7 @@ class Enemy:
         self._image = pg.image.load("images/enemy1.png")
         self._rect = pg.Rect(x, y, 50, 50)
         self._vx = random.uniform(-4, 4)
-        self._vy = random.uniform(-1, -3) # 本当は (-1, -4)
+        self._vy = random.uniform(-1, -4)
         self._maxhp = 100
         self._hp = 100
 
@@ -55,3 +55,20 @@ class Enemy:
         rect2 = pg.Rect(self._rect.x, self._rect.y - h, 4, h)
         pg.draw.rect(screen, pg.Color("RED"), rect1)
         pg.draw.rect(screen, pg.Color("GREEN"), rect2)
+
+class FlameEnemy(Enemy):
+    """ 炎の敵 """
+    def __init__(self) -> None:
+        super().__init__()
+        self._image = pg.image.load("images/enemy2.png")
+        self._vx = random.uniform(-2, 2)
+        self._vy = random.uniform(-6, -4)
+
+class IceEnemy(Enemy):
+    """ 氷の敵 """
+    def __init__(self) -> None:
+        super().__init__()
+        self._image = pg.image.load("images/enemy3.png")
+        self._maxhp = 150
+        self._hp = 150
+        

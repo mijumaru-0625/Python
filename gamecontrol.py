@@ -22,8 +22,12 @@ class GemeManager:
         self._is_cleared = False
         self._player.reset()
         self._enemies.clear()
-        for i in range(8):
+        for i in range(2):
             self._enemies.append(enemy.Enemy())
+        for i in range(1):
+            self._enemies.append(enemy.FlameEnemy())
+        for i in range(1):
+            self._enemies.append(enemy.IceEnemy())
 
 
     def update(self):
