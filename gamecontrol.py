@@ -11,10 +11,15 @@ class GemeManager:
     @property
     def is_playing(self):
         return self._is_playing
+    
+    @property
+    def is_cleared(self):
+        return self._is_cleared
 
     def reset(self):
         """ ゲームのリセット """
         self._is_playing = True
+        self._is_cleared = False
         self._player.reset()
         self._enemies.clear()
         for i in range(8):
@@ -33,6 +38,13 @@ class GemeManager:
             if e.rect.colliderect(self._player.rect):
                 e.rect.y = self._player.rect.y - 70
                 e.vy = -abs(e.vy)
+                e.hp -= 50
+                if e.hp <= 0:
+                    self._enemies.remove(e)
+                    if len(self._enemies) == 0:
+                        self._is_playing = False
+                        self._is_cleared = True
+                    return # おそらく for ループがおかしくなるんだろう
 
     def draw(self, screen):
         """ 描画処理 """
