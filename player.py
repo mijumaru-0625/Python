@@ -3,6 +3,17 @@ import pygame as pg
 class Player:
     """ 主人公 """
     def __init__(self) -> None:
+        self.reset()
+
+    @property
+    def rect(self):
+        return self._rect
+    @rect.setter
+    def rect(self, value):
+        self._rect = value
+
+    def reset(self):
+        """ このキャラのリセット """
         self._images = [
             pg.image.load("images/kaeru1.png"),
             pg.image.load("images/kaeru2.png"),
@@ -13,13 +24,6 @@ class Player:
         self._image = self._images[0]
         self._rect = pg.Rect(250, 550, 50, 50)
         self._speed = 10
-
-    @property
-    def rect(self):
-        return self._rect
-    @rect.setter
-    def rect(self, value):
-        self._rect = value
 
     def update(self):
         """ 更新処理 """
