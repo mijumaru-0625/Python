@@ -1,11 +1,12 @@
 import pygame as pg
-import random, player, enemy
+import player, enemy
 
 class GemeManager:
     """ ゲーム管理 """
     def __init__(self) -> None:
         self._player = player.Player()
         self._enemies: list[enemy.Enemy] = []
+        self._effects: list[enemy.BombEffect] = []
         self.reset()
 
     @property
@@ -29,9 +30,10 @@ class GemeManager:
         for i in range(1):
             self._enemies.append(enemy.IceEnemy())
 
-
     def update(self):
         """ 更新処理 """
+        for e in self._effects:
+            e.update()
         self._player.update()
         for e in self._enemies:
             e.update()
@@ -44,14 +46,19 @@ class GemeManager:
                 e.vy = -abs(e.vy)
                 e.hp -= 50
                 if e.hp <= 0:
+                    b = enemy.BombEffect(e.rect, self._effects)
+                    self._effects.append(b)
                     self._enemies.remove(e)
-                    if len(self._enemies) == 0:
-                        self._is_playing = False
-                        self._is_cleared = True
                     return # おそらく for ループがおかしくなるんだろう
+
+        if len(self._enemies + self._effects) == 0: # クリア画面に移行する
+            self._is_playing = False
+            self._is_cleared = True
 
     def draw(self, screen):
         """ 描画処理 """
+        for e in self._effects:
+            e.draw(screen)
         self._player.draw(screen)
         for e in self._enemies:
             e.draw(screen)

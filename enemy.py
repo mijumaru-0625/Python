@@ -71,4 +71,33 @@ class IceEnemy(Enemy):
         self._image = pg.image.load("images/enemy3.png")
         self._maxhp = 150
         self._hp = 150
+
+class BombEffect:
+    """ 爆発エフェクト """
+    def __init__(self, rect, effects: list) -> None:
+        self._images = [
+            pg.image.load("images/bomb_0.png"),
+            pg.image.load("images/bomb_1.png"),
+            pg.image.load("images/bomb_2.png"),
+            pg.image.load("images/bomb_3.png"),
+            pg.image.load("images/bomb_4.png"),
+            pg.image.load("images/bomb_5.png")
+        ]
+        self._image = self._images[0]
+        self._effects = effects
+        self._rect = rect
+        self._cnt = 0
+
+    def update(self):
+        """ 更新処理 """
+        self._cnt += 1
+        idx = self._cnt // 5
+        if idx <= 5:
+            self._image = self._images[idx]
+        else:
+            self._effects.remove(self)
+
+    def draw(self, screen: pg.Surface):
+        """ 描画処理 """
+        screen.blit(self._image, self._rect)
         
