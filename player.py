@@ -14,6 +14,13 @@ class Player:
         self._rect = pg.Rect(250, 550, 50, 50)
         self._speed = 10
 
+    @property
+    def rect(self):
+        return self._rect
+    @rect.setter
+    def rect(self, value):
+        self._rect = value
+
     def update(self):
         """ 更新処理 """
         key = pg.key.get_pressed()

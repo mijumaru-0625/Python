@@ -12,6 +12,20 @@ class Enemy:
         self._vx = random.uniform(-4, 4)
         self._vy = random.uniform(-1, -4)
 
+    @property
+    def rect(self):
+        return self._rect
+    @rect.setter
+    def rect(self, value):
+        self._rect = value
+
+    @property
+    def vy(self):
+        return self._vy
+    @vy.setter
+    def vy(self, value):
+        self._vy = value
+
     def update(self):
         if self._rect.x < 0 or self._rect.x > 500:
             self._vx = -self._vx
