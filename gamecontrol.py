@@ -42,6 +42,7 @@ class GemeManager:
                 self._is_playing = False
             # 敵と主人公が接触したら、敵を上に移動
             if e.rect.colliderect(self._player.rect):
+                self._player.damage()
                 e.rect.y = self._player.rect.y - 70
                 e.vy = -abs(e.vy)
                 e.hp -= 50
