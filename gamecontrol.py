@@ -1,14 +1,31 @@
 import pygame as pg
-import player, enemy, bullet
+import player, enemy, bullet, status
 
-class GemeManager:
+class Subject:
+    """ 配線者の基本形 """
+    def __init__(self) -> None:
+        self._observers: list[status.Observer] = []
+
+    def attach(self, observer):
+        """ 受信者の追加 """
+        self._observers.append(observer)
+
+    def notify(self, ntype):
+        """ 通知 """
+        for observer in self._observers:
+            observer.update(ntype)
+
+class GemeManager(Subject):
     """ ゲーム管理 """
     def __init__(self) -> None:
+        super().__init__()
         self._player = player.Player()
         self._enemies: list[enemy.Enemy] = []
         self._effects: list[enemy.BombEffect] = []
         self._bullets: list[bullet.Bullet] = []
         self._factory = enemy.EnemyFactory()
+        self._status = status.Status()
+        self.attach(self._status)
         self.reset()
 
     @property
@@ -28,9 +45,11 @@ class GemeManager:
         self._spawn_count = 0
         self._bullets.clear()
         self._bullet_count = 0
+        self._status.reset()
 
     def update(self):
         """ 更新処理 """
+        self.notify("distance")
         self._bullet_count += 1
         if self._bullet_count > 10: # 弾発生のカウンタが条件を満たした
             key = pg.key.get_pressed()
@@ -53,9 +72,13 @@ class GemeManager:
                     self._bullets.remove(b)
                     e.hp -= 50
                     if e.hp <= 0:
+                        self.notify("score")
                         b = enemy.BombEffect(e.rect, self._effects)
                         self._effects.append(b)
                         self._enemies.remove(e)
+                        if self._status.score == 30: # クリア条件
+                            self._is_playing = False
+                            self._is_cleared = True
             if e.is_alive == False:
                 self._enemies.remove(e)
                 break
@@ -79,3 +102,4 @@ class GemeManager:
         self._player.draw(screen)
         for e in self._enemies:
             e.draw(screen)
+        self._status.draw(screen)
