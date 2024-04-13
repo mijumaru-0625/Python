@@ -12,7 +12,6 @@ result = resultscene.ResultScene(game)
 while True:
     # 3.画面の初期化
     screen.fill(pg.Color("NAVY"))
-    pg.draw.rect(screen, pg.Color("SEAGREEN"), (0, 620, 600, 30))
     # 4.入力チェックや判断処理
     if game.is_playing == True:    
         game.update()

@@ -38,23 +38,17 @@ class GemeManager:
         for e in self._enemies:
             e.update()
             # 敵が下に落ちたら停止
-            if e.rect.y >= 580:
-                self._is_playing = False
+            if e.rect.y >= 650:
+                self._enemies.remove(e)
             # 敵と主人公が接触したら、敵を上に移動
             if e.rect.colliderect(self._player.rect):
+                self._enemies.remove(e)
                 self._player.damage()
-                e.rect.y = self._player.rect.y - 70
-                e.vy = -abs(e.vy)
-                e.hp -= 50
-                if e.hp <= 0:
-                    b = enemy.BombEffect(e.rect, self._effects)
-                    self._effects.append(b)
-                    self._enemies.remove(e)
-                    return # おそらく for ループがおかしくなるんだろう
+                self._player.hp -= 50
+                if self._player.hp <= 0:
+                    self._is_playing = False
 
-        if len(self._enemies + self._effects) == 0: # クリア画面に移行する
-            self._is_playing = False
-            self._is_cleared = True
+
 
     def draw(self, screen):
         """ 描画処理 """

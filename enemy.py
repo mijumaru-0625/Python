@@ -51,7 +51,7 @@ class Enemy:
         screen.blit(self._image, self._rect)
         # hpbar
         rect1 = pg.Rect(self._rect.x, self._rect.y - 20, 4, 20)
-        h = (self._hp / self._maxhp) * 20
+        h = int((self._hp / self._maxhp) * 20)
         rect2 = pg.Rect(self._rect.x, self._rect.y - h, 4, h)
         pg.draw.rect(screen, pg.Color("RED"), rect1)
         pg.draw.rect(screen, pg.Color("GREEN"), rect2)

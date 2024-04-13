@@ -84,11 +84,24 @@ class Player:
     def rect(self, value):
         self._rect = value
 
+    @property
+    def maxhp(self):
+        return self._maxhp
+    
+    @property
+    def hp(self):
+        return self._hp
+    @hp.setter
+    def hp(self, value):
+        self._hp = value
+
     def reset(self):
         """ このキャラのリセット """
         self._state = IdleState(self)
         self._rect = pg.Rect(250, 550, 50, 50)
         self._speed = 10
+        self._maxhp = 150
+        self._hp = 150
 
     def update(self):
         """ 更新処理 """
@@ -106,6 +119,13 @@ class Player:
     def draw(self, screen):
         """ 描画処理 """
         screen.blit(self._state.image, self._rect)
+        # hpbar
+        rect1 = pg.Rect(self._rect.x, self._rect.y - 20, 4, 20)
+        h = int((self._hp / self._maxhp) * 20)
+        rect2 = pg.Rect(self._rect.x, self._rect.y - h, 4, h)
+        pg.draw.rect(screen, pg.Color("RED"), rect1)
+        pg.draw.rect(screen, pg.Color("GREEN"), rect2)
+
 
     def damage(self):
         self._state = DamageState(self)
