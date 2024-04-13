@@ -53,6 +53,10 @@ class Enemy:
         if self._rect.y > 650:
             self._is_alive = False
 
+    def clear(self):
+        """ この敵を消去します """
+        self._is_alive = False
+
     def draw(self, screen):
         screen.blit(self._image, self._rect)
         # hpbar

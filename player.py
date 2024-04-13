@@ -63,6 +63,7 @@ class DamageState(PlayerState):
         self._timeout = 20
         
     def update(self):
+        """ 更新処理 """
         self._cnt += 1
         self._image = self._images[self._cnt // 5 % 2]
         # タイムアウトチェック

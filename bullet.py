@@ -18,12 +18,21 @@ class Bullet:
     def rect(self, value):
         self._rect = value
 
+    @property
+    def is_alive(self):
+        return self._is_alive
+
     def update(self):
         """ 更新処理 """
         self._rect.y += self._vy
         if self._rect.y < -100:
             self._is_alive = False
 
+    def hit_enemy(self):
+        """ 敵にあたったので消滅フラグを有効にします """
+        self._is_alive = False
+
     def draw(self, screen: pg.Surface):
         """ 描画処理 """
         screen.blit(self._image, self._rect)
+
