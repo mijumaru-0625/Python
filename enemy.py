@@ -5,25 +5,15 @@ class Enemy:
     """ 敵 """
     def __init__(self) -> None:
         x = random.randint(100, 500)
-        y = random.randint(100, 200)
+        y = -100
         # プロパティ
         self._image = pg.image.load("images/enemy1.png")
         self._rect = pg.Rect(x, y, 50, 50)
         self._vx = random.uniform(-4, 4)
-        self._vy = random.uniform(-1, -4)
+        self._vy = random.uniform(1, 4)
         self._maxhp = 100
         self._hp = 100
-
-    @property
-    def maxhp(self):
-        return self._maxhp
-    
-    @property
-    def hp(self):
-        return self._hp
-    @hp.setter
-    def hp(self, value):
-        self._hp = value
+        self._is_alive = True
 
     @property
     def rect(self):
@@ -39,13 +29,29 @@ class Enemy:
     def vy(self, value):
         self._vy = value
 
+    @property
+    def maxhp(self):
+        return self._maxhp
+    
+    @property
+    def hp(self):
+        return self._hp
+    @hp.setter
+    def hp(self, value):
+        self._hp = value
+
+    @property
+    def is_alive(self):
+        return self._is_alive
+    
     def update(self):
-        if self._rect.x < 0 or self._rect.x > 500:
+        """ 更新処理 """
+        if self._rect.x < 0 or self._rect.x > 550:
             self._vx = -self._vx
-        if self._rect.y < 0:
-            self._vy = -self._vy
         self._rect.x += self._vx
         self._rect.y += self._vy
+        if self._rect.y > 650:
+            self._is_alive = False
 
     def draw(self, screen):
         screen.blit(self._image, self._rect)
@@ -62,7 +68,7 @@ class FlameEnemy(Enemy):
         super().__init__()
         self._image = pg.image.load("images/enemy2.png")
         self._vx = random.uniform(-2, 2)
-        self._vy = random.uniform(-6, -4)
+        self._vy = random.uniform(5, 7)
 
 class IceEnemy(Enemy):
     """ 氷の敵 """
@@ -100,4 +106,20 @@ class BombEffect:
     def draw(self, screen: pg.Surface):
         """ 描画処理 """
         screen.blit(self._image, self._rect)
+
+class EnemyFactory:
+    """ 敵工場 """
+    def create(self, etype):
+        """ タイプ指定で敵を作る """
+        if etype == "flame":
+            return FlameEnemy()
+        elif etype == "ice":
+            return IceEnemy()
+        else:
+            return Enemy()
+        
+    def random_create(self):
+        """ ランダムに敵を作る """
+        etype = random.choice(["normal", "flame", "ice"])
+        return self.create(etype)
         
